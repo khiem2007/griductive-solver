@@ -17,7 +17,21 @@ CARD_BACK = (42, 53, 78)
 WHITE = (255, 255, 255)
 
 
+_FONT_CACHE = {}
+
+
 def font(size, bold=False):
+    """Return a cached font face.
+
+    pygame.font.SysFont rescans the system font list on every call, which is
+    far too slow to run once per drawn string.
+    """
     import pygame
-    return pygame.font.SysFont("segoeui", size, bold=bold)
+
+    key = (int(size), bool(bold))
+    face = _FONT_CACHE.get(key)
+    if face is None:
+        face = pygame.font.SysFont("segoeui", int(size), bold=bold)
+        _FONT_CACHE[key] = face
+    return face
 

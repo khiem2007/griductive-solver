@@ -7,6 +7,7 @@ class DPLLStats:
     decisions: int = 0
     propagations: int = 0
     backtracks: int = 0
+    pure_literals: int = 0
     runtime_ms: float = 0.0
 
 
@@ -18,7 +19,14 @@ class SATResult:
 
 
 class DPLLSolver:
-    """Small deterministic DPLL implementation used by every SAT query."""
+    """Small deterministic DPLL implementation used by every SAT query.
+
+    Pure-literal elimination is optional so the report can compare the solver
+    with and without it on the same puzzle set.
+    """
+
+    def __init__(self, use_pure_literal=True):
+        self.use_pure_literal = use_pure_literal
 
     def solve(self, clauses, variable_count, assumptions=None):
         started = perf_counter()
@@ -41,18 +49,28 @@ class DPLLSolver:
                 return None
             if not reduced:
                 return assignment
-            units = sorted({clause[0] for clause in reduced if len(clause) == 1}, key=abs)
-            if not units:
-                clauses = reduced
-                break
-            for literal in units:
-                variable, value = abs(literal), literal > 0
-                if variable in assignment and assignment[variable] != value:
-                    return None
-                if variable not in assignment:
-                    assignment[variable] = value
-                    stats.propagations += 1
             clauses = reduced
+
+            units = sorted({clause[0] for clause in reduced if len(clause) == 1}, key=abs)
+            if units:
+                for literal in units:
+                    variable, value = abs(literal), literal > 0
+                    if variable in assignment and assignment[variable] != value:
+                        return None
+                    if variable not in assignment:
+                        assignment[variable] = value
+                        stats.propagations += 1
+                continue
+
+            if self.use_pure_literal:
+                pure = self._pure_literals(reduced)
+                if pure:
+                    for literal in pure:
+                        assignment[abs(literal)] = literal > 0
+                    stats.pure_literals += len(pure)
+                    continue
+
+            break
 
         used = {abs(literal) for clause in clauses for literal in clause}
         variable = min(v for v in used if v not in assignment)
@@ -65,6 +83,20 @@ class DPLLSolver:
                 return result
             stats.backtracks += 1
         return None
+
+    @staticmethod
+    def _pure_literals(clauses):
+        """Variables that appear with a single polarity in the remaining clauses.
+
+        Satisfying them can never lose a model, so they are assigned without a
+        decision point.
+        """
+        positive, negative = set(), set()
+        for clause in clauses:
+            for literal in clause:
+                (positive if literal > 0 else negative).add(abs(literal))
+        pure = [v for v in positive - negative] + [-v for v in negative - positive]
+        return sorted(pure, key=abs)
 
     @staticmethod
     def _simplify(clauses, assignment):

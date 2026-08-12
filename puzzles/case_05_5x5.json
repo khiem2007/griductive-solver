@@ -1,0 +1,450 @@
+{
+  "id": "case_05",
+  "title": "The Vanished Canvas",
+  "description": "A 5x5 stress case driven by row, column, and neighbour counting clues.",
+  "size": 5,
+  "initially_revealed": [
+    "D2",
+    "D4"
+  ],
+  "characters": [
+    {
+      "cell": "A1",
+      "name": "Ana",
+      "profession": "Curator"
+    },
+    {
+      "cell": "B1",
+      "name": "Bo",
+      "profession": "Framer"
+    },
+    {
+      "cell": "C1",
+      "name": "Cai",
+      "profession": "Guide"
+    },
+    {
+      "cell": "D1",
+      "name": "Dov",
+      "profession": "Etcher"
+    },
+    {
+      "cell": "E1",
+      "name": "Eli",
+      "profession": "Docent"
+    },
+    {
+      "cell": "A2",
+      "name": "Fay",
+      "profession": "Binder"
+    },
+    {
+      "cell": "B2",
+      "name": "Gus",
+      "profession": "Gilder"
+    },
+    {
+      "cell": "C2",
+      "name": "Hana",
+      "profession": "Potter"
+    },
+    {
+      "cell": "D2",
+      "name": "Ivo",
+      "profession": "Weaver"
+    },
+    {
+      "cell": "E2",
+      "name": "Jax",
+      "profession": "Scribe"
+    },
+    {
+      "cell": "A3",
+      "name": "Kit",
+      "profession": "Keeper"
+    },
+    {
+      "cell": "B3",
+      "name": "Lena",
+      "profession": "Warden"
+    },
+    {
+      "cell": "C3",
+      "name": "Mira",
+      "profession": "Usher"
+    },
+    {
+      "cell": "D3",
+      "name": "Nils",
+      "profession": "Clerk"
+    },
+    {
+      "cell": "E3",
+      "name": "Otto",
+      "profession": "Editor"
+    },
+    {
+      "cell": "A4",
+      "name": "Pia",
+      "profession": "Glazier"
+    },
+    {
+      "cell": "B4",
+      "name": "Quin",
+      "profession": "Carver"
+    },
+    {
+      "cell": "C4",
+      "name": "Rhea",
+      "profession": "Mounter"
+    },
+    {
+      "cell": "D4",
+      "name": "Sami",
+      "profession": "Painter"
+    },
+    {
+      "cell": "E4",
+      "name": "Tao",
+      "profession": "Dealer"
+    },
+    {
+      "cell": "A5",
+      "name": "Uri",
+      "profession": "Valuer"
+    },
+    {
+      "cell": "B5",
+      "name": "Vera",
+      "profession": "Packer"
+    },
+    {
+      "cell": "C5",
+      "name": "Wes",
+      "profession": "Porter"
+    },
+    {
+      "cell": "D5",
+      "name": "Xia",
+      "profession": "Printer"
+    },
+    {
+      "cell": "E5",
+      "name": "Yuri",
+      "profession": "Sorter"
+    }
+  ],
+  "solution": {
+    "A1": "CRIMINAL",
+    "B1": "INNOCENT",
+    "C1": "INNOCENT",
+    "D1": "CRIMINAL",
+    "E1": "INNOCENT",
+    "A2": "INNOCENT",
+    "B2": "CRIMINAL",
+    "C2": "CRIMINAL",
+    "D2": "INNOCENT",
+    "E2": "CRIMINAL",
+    "A3": "CRIMINAL",
+    "B3": "INNOCENT",
+    "C3": "INNOCENT",
+    "D3": "CRIMINAL",
+    "E3": "INNOCENT",
+    "A4": "INNOCENT",
+    "B4": "CRIMINAL",
+    "C4": "CRIMINAL",
+    "D4": "CRIMINAL",
+    "E4": "INNOCENT",
+    "A5": "CRIMINAL",
+    "B5": "INNOCENT",
+    "C5": "INNOCENT",
+    "D5": "CRIMINAL",
+    "E5": "CRIMINAL"
+  },
+  "clues": {
+    "A1": {
+      "id": "0501",
+      "type": "AT_LEAST",
+      "data": {
+        "k": 3,
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "B2",
+            "B4",
+            "D5"
+          ]
+        }
+      },
+      "text": "At least 3 criminals in B2, B4, D5."
+    },
+    "B1": {
+      "id": "0502",
+      "type": "EXACTLY",
+      "data": {
+        "k": 3,
+        "region": {
+          "kind": "ROW",
+          "index": 2
+        }
+      },
+      "text": "Exactly 3 criminals in row 2."
+    },
+    "C1": {
+      "id": "0503",
+      "type": "DIFFERENT",
+      "data": {
+        "a": "A5",
+        "b": "B1"
+      },
+      "text": "Uri (A5) differs from Bo (B1)."
+    },
+    "D1": {
+      "id": "0504",
+      "type": "PARITY",
+      "data": {
+        "parity": "ODD",
+        "region": {
+          "kind": "NEIGHBORS",
+          "cell": "B5"
+        }
+      },
+      "text": "Criminals in B5's neighbours: odd."
+    },
+    "E1": {
+      "id": "0505",
+      "type": "PARITY",
+      "data": {
+        "parity": "EVEN",
+        "region": {
+          "kind": "NEIGHBORS",
+          "cell": "E5"
+        }
+      },
+      "text": "Criminals in E5's neighbours: even."
+    },
+    "A2": {
+      "id": "0506",
+      "type": "AT_MOST",
+      "data": {
+        "k": 2,
+        "region": {
+          "kind": "COLUMN",
+          "index": "E"
+        }
+      },
+      "text": "At most 2 criminals in column E."
+    },
+    "B2": {
+      "id": "0507",
+      "type": "AT_MOST",
+      "data": {
+        "k": 1,
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "A4",
+            "B3",
+            "C3",
+            "D5"
+          ]
+        }
+      },
+      "text": "At most 1 criminal in A4, B3, C3, D5."
+    },
+    "C2": {
+      "id": "0508",
+      "type": "IMPLIES",
+      "data": {
+        "a": "C1",
+        "b": "E3"
+      },
+      "text": "If C1 is a criminal, so is E3."
+    },
+    "D2": {
+      "id": "0509",
+      "type": "FACT",
+      "data": {
+        "cell": "C4",
+        "status": "CRIMINAL"
+      },
+      "text": "Rhea (C4) is a criminal."
+    },
+    "E2": {
+      "id": "0510",
+      "type": "SAME",
+      "data": {
+        "a": "D3",
+        "b": "E5"
+      },
+      "text": "Nils (D3) matches Yuri (E5)."
+    },
+    "A3": {
+      "id": "0511",
+      "type": "AT_MOST",
+      "data": {
+        "k": 0,
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "B5",
+            "D2",
+            "E3"
+          ]
+        }
+      },
+      "text": "No criminals in B5, D2, E3."
+    },
+    "B3": {
+      "id": "0512",
+      "type": "EXACTLY",
+      "data": {
+        "k": 1,
+        "region": {
+          "kind": "NEIGHBORS",
+          "cell": "A1"
+        }
+      },
+      "text": "Exactly 1 criminal in A1's neighbours."
+    },
+    "C3": {
+      "id": "0513",
+      "type": "AT_LEAST",
+      "data": {
+        "k": 4,
+        "region": {
+          "kind": "COLUMN",
+          "index": "D"
+        }
+      },
+      "text": "At least 4 criminals in column D."
+    },
+    "D3": {
+      "id": "0514",
+      "type": "DIFFERENT",
+      "data": {
+        "a": "C3",
+        "b": "D1"
+      },
+      "text": "Mira (C3) differs from Dov (D1)."
+    },
+    "E3": {
+      "id": "0515",
+      "type": "FACT",
+      "data": {
+        "cell": "E5",
+        "status": "CRIMINAL"
+      },
+      "text": "Yuri (E5) is a criminal."
+    },
+    "A4": {
+      "id": "0516",
+      "type": "PARITY",
+      "data": {
+        "parity": "ODD",
+        "region": {
+          "kind": "CORNERS"
+        }
+      },
+      "text": "Criminals in the 4 corners: odd."
+    },
+    "B4": {
+      "id": "0517",
+      "type": "AT_MOST",
+      "data": {
+        "k": 3,
+        "region": {
+          "kind": "ROW",
+          "index": 3
+        }
+      },
+      "text": "At most 3 criminals in row 3."
+    },
+    "C4": {
+      "id": "0518",
+      "type": "EXACTLY",
+      "data": {
+        "k": 2,
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "A1",
+            "E5"
+          ]
+        }
+      },
+      "text": "Exactly 2 criminals in A1, E5."
+    },
+    "D4": {
+      "id": "0519",
+      "type": "SAME",
+      "data": {
+        "a": "A3",
+        "b": "B2"
+      },
+      "text": "Kit (A3) matches Gus (B2)."
+    },
+    "E4": {
+      "id": "0520",
+      "type": "IMPLIES",
+      "data": {
+        "a": "A4",
+        "b": "A5"
+      },
+      "text": "If A4 is a criminal, so is A5."
+    },
+    "A5": {
+      "id": "0521",
+      "type": "AT_LEAST",
+      "data": {
+        "k": 1,
+        "region": {
+          "kind": "CORNERS"
+        }
+      },
+      "text": "At least 1 criminal in the 4 corners."
+    },
+    "B5": {
+      "id": "0522",
+      "type": "SAME",
+      "data": {
+        "a": "B4",
+        "b": "E5"
+      },
+      "text": "Quin (B4) matches Yuri (E5)."
+    },
+    "C5": {
+      "id": "0523",
+      "type": "AT_LEAST",
+      "data": {
+        "k": 2,
+        "region": {
+          "kind": "ROW",
+          "index": 5
+        }
+      },
+      "text": "At least 2 criminals in row 5."
+    },
+    "D5": {
+      "id": "0524",
+      "type": "PARITY",
+      "data": {
+        "parity": "EVEN",
+        "region": {
+          "kind": "NEIGHBORS",
+          "cell": "A3"
+        }
+      },
+      "text": "Criminals in A3's neighbours: even."
+    },
+    "E5": {
+      "id": "0525",
+      "type": "DIFFERENT",
+      "data": {
+        "a": "B5",
+        "b": "D1"
+      },
+      "text": "Vera (B5) differs from Dov (D1)."
+    }
+  }
+}
