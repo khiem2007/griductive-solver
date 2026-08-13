@@ -19,15 +19,18 @@ class GameSession:
         self.agent = agent
         self.trace = []
         self.analysis = None
+        self.uniqueness = "UNKNOWN"
         self.refresh()
 
     def refresh(self):
         self.public = self.engine.get_public_state()
         self.analysis = self.agent.analyze(self.public)
+        # Cached here so the GUI never re-runs two SAT queries per frame.
+        self.uniqueness = self.agent.uniqueness_check(self.public)
 
     def submit(self, cell, verdict):
         result, clue = self.engine.submit_verdict(
-            cell, verdict, self.analysis.classifications
+            cell, verdict, self.analysis.classifications, self.analysis.inconsistent
         )
         if result == VerdictResult.ACCEPTED:
             self.trace.append(

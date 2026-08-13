@@ -18,8 +18,8 @@ class Analysis:
 class LogicAgent:
     """Consumes PublicState only. It has no reference to Puzzle or GameEngine."""
 
-    def __init__(self):
-        self.solver = DPLLSolver()
+    def __init__(self, use_pure_literal=True):
+        self.solver = DPLLSolver(use_pure_literal)
 
     def analyze(self, public_state):
         encoder = CNFEncoder(public_state.characters)

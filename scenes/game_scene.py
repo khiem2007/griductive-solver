@@ -11,6 +11,7 @@ from ui.button import Button
 from ui.avatar_manager import AvatarManager
 from ui.text import (
     draw_text,
+    draw_text_fitted,
     draw_wrapped,
     wrap_lines,
 )
@@ -77,7 +78,7 @@ class GameScene(BaseScene):
 
         else:
             self.message = (
-                "Press START SOLVER to let the Logic Agent "
+                "Press AUTO SOLVE to let the Logic Agent "
                 "solve this case automatically."
             )
 
@@ -90,19 +91,40 @@ class GameScene(BaseScene):
     # =========================================================
 
     def _make_buttons(self):
-        # Các button dùng chung
+        # Load, Restart, Hint và Auto Solve phải có mặt ở cả hai mode.
+        self.auto_button = Button(
+            (420, 18, 150, 40),
+            "AUTO SOLVE",
+            self.toggle_auto,
+            accent=True,
+        )
+
         self.top_buttons = [
             Button(
-                (30, 18, 92, 40),
+                (30, 18, 86, 40),
                 "BACK",
+                self.go_menu,
+            ),
+
+            Button(
+                (124, 18, 86, 40),
+                "LOAD",
                 self.on_back,
             ),
 
             Button(
-                (132, 18, 100, 40),
+                (218, 18, 104, 40),
                 "RESTART",
                 self.restart,
             ),
+
+            Button(
+                (330, 18, 82, 40),
+                "HINT",
+                self.hint,
+            ),
+
+            self.auto_button,
         ]
 
         # -----------------------------------------------------
@@ -110,14 +132,6 @@ class GameScene(BaseScene):
         # -----------------------------------------------------
 
         if self.mode == "play":
-
-            self.top_buttons.append(
-                Button(
-                    (242, 18, 82, 40),
-                    "HINT",
-                    self.hint,
-                )
-            )
 
             self.action_buttons = [
                 Button(
@@ -143,21 +157,19 @@ class GameScene(BaseScene):
 
         else:
 
-            self.top_buttons.append(
-                Button(
-                    (242, 18, 150, 40),
-                    "START SOLVER",
-                    self.start_auto,
-                    accent=True,
-                )
-            )
-
             self.action_buttons = []
 
         self.buttons = (
             self.top_buttons
             + self.action_buttons
         )
+
+    # =========================================================
+    # NAVIGATION
+    # =========================================================
+
+    def go_menu(self):
+        self.app.show_main_menu()
 
     # =========================================================
     # RESTART
@@ -183,7 +195,7 @@ class GameScene(BaseScene):
 
         else:
             self._set_message(
-                "Puzzle restarted. Press START SOLVER.",
+                "Puzzle restarted. Press AUTO SOLVE.",
                 MUTED,
             )
 
@@ -192,8 +204,15 @@ class GameScene(BaseScene):
     # =========================================================
 
     def hint(self):
-        # Hint chỉ dành cho Play mode
-        if self.mode != "play":
+        if self.session.analysis.inconsistent:
+            self._set_message(
+                (
+                    "INCONSISTENT: the public knowledge "
+                    "base is unsatisfiable."
+                ),
+                CRIMINAL,
+            )
+
             return
 
         move = self.session.agent.next_forced(
@@ -251,8 +270,15 @@ class GameScene(BaseScene):
     # SOLVER
     # =========================================================
 
-    def start_auto(self):
-        if self.mode != "solve":
+    def toggle_auto(self):
+        if self.auto_solving:
+            self.auto_solving = False
+
+            self._set_message(
+                "Auto Solve paused.",
+                MUTED,
+            )
+
             return
 
         if self.session.engine.is_solved():
@@ -263,7 +289,15 @@ class GameScene(BaseScene):
 
             return
 
-        if self.auto_solving:
+        if self.session.analysis.inconsistent:
+            self._set_message(
+                (
+                    "INCONSISTENT: the public knowledge "
+                    "base is unsatisfiable."
+                ),
+                CRIMINAL,
+            )
+
             return
 
         self.auto_solving = True
@@ -471,11 +505,11 @@ class GameScene(BaseScene):
             elif event.key == pygame.K_r:
                 self.restart()
 
-            elif (
-                event.key == pygame.K_h
-                and self.mode == "play"
-            ):
+            elif event.key == pygame.K_h:
                 self.hint()
+
+            elif event.key == pygame.K_a:
+                self.toggle_auto()
 
         # -----------------------------------------------------
         # Mouse
@@ -573,11 +607,20 @@ class GameScene(BaseScene):
         # Top buttons
         # -----------------------------------------------------
 
+        self.auto_button.text = (
+            "STOP"
+            if self.auto_solving
+            else "AUTO SOLVE"
+        )
+
         for button in self.top_buttons:
             button.draw(screen)
 
         # -----------------------------------------------------
         # Mode title
+        #
+        # Đặt phía trên side panel để không đè lên nhãn cột
+        # của bàn cờ (A..E nằm ở dải y 69..91).
         # -----------------------------------------------------
 
         if self.mode == "play":
@@ -588,16 +631,17 @@ class GameScene(BaseScene):
         draw_text(
             screen,
             mode_label,
-            (490, 13),
+            (765, 12),
             13,
             ACCENT,
             True,
         )
 
-        draw_text(
+        draw_text_fitted(
             screen,
             self.session.engine.title,
-            (490, 32),
+            (765, 30),
+            485,
             25,
             TEXT,
             True,
@@ -612,7 +656,7 @@ class GameScene(BaseScene):
                 f"{len(self.session.public.proved_statuses)}"
                 f"/{self.puzzle.size ** 2} proved"
             ),
-            (490, 61),
+            (765, 60),
             15,
             MUTED,
         )
@@ -973,7 +1017,9 @@ class GameScene(BaseScene):
             avatar_rect,
         )
 
-        draw_text(
+        label_width = rect.width - 12
+
+        draw_text_fitted(
             screen,
             character.name,
             (
@@ -981,13 +1027,14 @@ class GameScene(BaseScene):
                 rect.y
                 + name_offset,
             ),
+            label_width,
             name_size,
             TEXT,
             True,
             "midtop",
         )
 
-        draw_text(
+        draw_text_fitted(
             screen,
             character.profession,
             (
@@ -995,6 +1042,7 @@ class GameScene(BaseScene):
                 rect.y
                 + job_offset,
             ),
+            label_width,
             job_size,
             MUTED,
             False,
@@ -1044,6 +1092,7 @@ class GameScene(BaseScene):
 
             header_height = 62
             avatar_size = (42, 42)
+            avatar_x = 40
 
             name_offset = 15
             job_offset = 35
@@ -1056,6 +1105,7 @@ class GameScene(BaseScene):
 
             header_height = 51
             avatar_size = (31, 31)
+            avatar_x = 30
 
             name_offset = 11
             job_offset = 28
@@ -1066,8 +1116,11 @@ class GameScene(BaseScene):
 
         else:
 
+            # Thẻ 5x5 rất hẹp: kéo avatar sát vào để chừa
+            # chỗ cho tên và nghề nghiệp.
             header_height = 42
             avatar_size = (25, 25)
+            avatar_x = 26
 
             name_offset = 8
             job_offset = 23
@@ -1087,7 +1140,7 @@ class GameScene(BaseScene):
         avatar_rect = (
             avatar.get_rect(
                 midleft=(
-                    rect.x + 40,
+                    rect.x + avatar_x,
                     rect.y
                     + header_height // 2
                     + 2,
@@ -1104,7 +1157,12 @@ class GameScene(BaseScene):
             avatar_rect.right + 7
         )
 
-        draw_text(
+        identity_width = max(
+            10,
+            rect.right - 7 - identity_x,
+        )
+
+        draw_text_fitted(
             screen,
             character.name,
             (
@@ -1112,12 +1170,13 @@ class GameScene(BaseScene):
                 rect.y
                 + name_offset,
             ),
+            identity_width,
             name_size,
             TEXT,
             True,
         )
 
-        draw_text(
+        draw_text_fitted(
             screen,
             character.profession,
             (
@@ -1125,6 +1184,7 @@ class GameScene(BaseScene):
                 rect.y
                 + job_offset,
             ),
+            identity_width,
             job_size,
             MUTED,
         )
@@ -1419,6 +1479,10 @@ class GameScene(BaseScene):
                 analysis.stats.backtracks,
             ),
             (
+                "Pure literals",
+                analysis.stats.pure_literals,
+            ),
+            (
                 "Runtime",
                 (
                     f"{analysis.stats.runtime_ms:.3f} ms"
@@ -1437,8 +1501,8 @@ class GameScene(BaseScene):
 
             row_y = (
                 y
-                + 34
-                + index * 27
+                + 32
+                + index * 25
             )
 
             draw_text(
@@ -1469,12 +1533,8 @@ class GameScene(BaseScene):
         # Current uniqueness
         # -----------------------------------------------------
 
-        unique = (
-            self.session.agent
-            .uniqueness_check(
-                self.session.public
-            )
-        )
+        # Đã tính sẵn trong GameSession.refresh().
+        unique = self.session.uniqueness
 
         draw_text(
             screen,

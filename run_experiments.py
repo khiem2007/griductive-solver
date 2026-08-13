@@ -15,15 +15,16 @@ ROOT = Path(__file__).parent
 OUTPUT = ROOT / "output"
 
 
-def run_case(path):
+def run_case(path, use_pure_literal=True):
     puzzle = load_puzzle(path)
-    agent = LogicAgent()
+    agent = LogicAgent(use_pure_literal)
     session = GameSession(GameEngine(puzzle), agent)
     cumulative = {
         "sat_calls": 0,
         "decisions": 0,
         "propagations": 0,
         "backtracks": 0,
+        "pure_literals": 0,
     }
     started = perf_counter()
     while not session.engine.is_solved():
@@ -31,6 +32,7 @@ def run_case(path):
         cumulative["decisions"] += session.analysis.stats.decisions
         cumulative["propagations"] += session.analysis.stats.propagations
         cumulative["backtracks"] += session.analysis.stats.backtracks
+        cumulative["pure_literals"] += session.analysis.stats.pure_literals
         move = agent.next_forced(session.public, session.analysis)
         if move is None:
             break
@@ -79,7 +81,8 @@ def main():
     columns = [
         "puzzle", "size", "primary_variables", "auxiliary_variables",
         "full_clauses", "sat_calls", "decisions", "propagations",
-        "backtracks", "deduction_steps", "solved", "uniqueness", "runtime_ms",
+        "backtracks", "pure_literals", "deduction_steps", "solved",
+        "uniqueness", "runtime_ms",
     ]
     with (OUTPUT / "experiments.csv").open("w", newline="", encoding="utf-8") as stream:
         writer = csv.DictWriter(stream, fieldnames=columns)
@@ -96,6 +99,44 @@ def main():
             f"{row['puzzle']}: solved={row['solved']}, "
             f"unique={row['uniqueness']}, steps={row['deduction_steps']}, "
             f"runtime={row['runtime_ms']:.3f} ms"
+        )
+
+    write_ablation()
+
+
+def write_ablation():
+    """Same puzzle set, solver with and without pure-literal elimination."""
+    paths = sorted((ROOT / "puzzles").glob("*.json"))
+    columns = [
+        "puzzle", "decisions_off", "decisions_on", "propagations_off",
+        "propagations_on", "backtracks_off", "backtracks_on",
+        "pure_literals_on", "runtime_ms_off", "runtime_ms_on",
+    ]
+    rows = []
+    for path in paths:
+        off = run_case(path, use_pure_literal=False)
+        on = run_case(path, use_pure_literal=True)
+        rows.append({
+            "puzzle": off["puzzle"],
+            "decisions_off": off["decisions"], "decisions_on": on["decisions"],
+            "propagations_off": off["propagations"],
+            "propagations_on": on["propagations"],
+            "backtracks_off": off["backtracks"], "backtracks_on": on["backtracks"],
+            "pure_literals_on": on["pure_literals"],
+            "runtime_ms_off": off["runtime_ms"], "runtime_ms_on": on["runtime_ms"],
+        })
+    with (OUTPUT / "pure_literal_ablation.csv").open(
+        "w", newline="", encoding="utf-8"
+    ) as stream:
+        writer = csv.DictWriter(stream, fieldnames=columns)
+        writer.writeheader()
+        writer.writerows(rows)
+    print("\npure-literal elimination (off -> on)")
+    for row in rows:
+        print(
+            f"  {row['puzzle']}: decisions {row['decisions_off']} -> "
+            f"{row['decisions_on']}, propagations {row['propagations_off']} -> "
+            f"{row['propagations_on']}, pure literals {row['pure_literals_on']}"
         )
 
 

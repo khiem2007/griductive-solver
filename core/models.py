@@ -67,6 +67,7 @@ class SolverStats:
     decisions: int = 0
     propagations: int = 0
     backtracks: int = 0
+    pure_literals: int = 0
     runtime_ms: float = 0.0
 
     def add(self, other):
@@ -74,5 +75,6 @@ class SolverStats:
         self.decisions += other.decisions
         self.propagations += other.propagations
         self.backtracks += other.backtracks
+        self.pure_literals += other.pure_literals
         self.runtime_ms += other.runtime_ms
 

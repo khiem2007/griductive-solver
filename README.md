@@ -6,15 +6,16 @@ The project mirrors the modular organization of the earlier Bloxorz Solver while
 
 ## Features
 
-- Four sample cases: two 3×3 and two 4×4 puzzles.
-- Manual play with `NOT_PROVABLE` and `CONTRADICTED` rejection states.
+- Six sample cases: two 3×3, two 4×4, and two 5×5 stress cases.
+- Manual play with `NOT_PROVABLE`, `CONTRADICTED`, and `INCONSISTENT` rejection states.
+- Face-up cards publish both their status and their clue, exactly as the rules require.
 - Progressive card reveal; hidden clues never enter the active knowledge base.
 - Selectable clues and visual highlighting of referenced cells.
 - Fifty character avatars loaded from `assets/sprites/avatars`.
 - Unique, stable avatar assignment for every character in a grid.
 - A compact avatar/name/profession header when a card reveals its clue.
 - Green borders for proved Innocents and red borders for proved Criminals.
-- Load, Restart, Hint, and animated Auto Solve controls.
+- Load, Restart, Hint, and animated Auto Solve controls, available in both Play and Solver mode.
 - Automatic CNF encoder for `FACT`, `SAME`, `DIFFERENT`, `EXACTLY`, `AT_LEAST`, and `AT_MOST`.
 - Two extensions: `PARITY` and `IMPLIES`.
 - Direct semantic evaluator for every clue type.
@@ -78,7 +79,9 @@ python main.py
 |---|---|
 | Left click a card | Select a character or inspect a public clue |
 | Criminal / Innocent buttons | Submit a verdict for the selected card |
+| `LOAD` button | Return to case selection to load another puzzle |
 | `H` | Request a no-guess hint |
+| `A` | Start or pause Auto Solve |
 | `R` | Restart the current case |
 | `Esc` | Return to case selection |
 
@@ -109,7 +112,12 @@ Every card has a character and a structured clue. Regions support:
 - `CORNERS` (advanced region)
 - `BOUNDARY` (advanced region)
 
-To add a case, copy a file in `puzzles/`, keep one clue per cell, ensure every clue is true under the complete solution, and choose enough initially revealed clues for at least one forced first verdict. The loader validates cells, clue parameters, duplicate clue IDs, and clue truth.
+To add a case, copy a file in `puzzles/`, keep one clue per cell, ensure every clue is true under the complete solution, and choose enough initially revealed cards for at least one forced first verdict. The cells listed in `initially_revealed` start face-up, so both their status and their clue are public from the beginning. The loader validates cells, clue parameters, duplicate clue IDs, and clue truth.
+
+Counting clues are compiled with a direct combinatorial encoding, so the clause
+count grows as `C(|R|, k+1)`. That is cheap for rows, columns, neighbourhoods and
+corners, but a mid-range count over a 5×5 `BOUNDARY` region (16 cells) would emit
+more than ten thousand clauses — prefer small regions or near-extreme `k` there.
 
 ## Important Logic Rule
 

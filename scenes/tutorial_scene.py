@@ -23,12 +23,12 @@ class TutorialScene(BaseScene):
             button.draw(screen)
         draw_text(screen, "HOW TO PLAY", (65, 112), 40, TEXT, True)
         sections = [
-            ("1. READ PUBLIC CLUES", "Face-up cards show true statements. Names and professions have no logical meaning."),
+            ("1. READ PUBLIC CLUES", "A face-up card publishes its status and a true statement. Names and professions have no logical meaning."),
             ("2. SELECT A CARD", "Click an unresolved character, then choose CRIMINAL or INNOCENT."),
             ("3. NEVER GUESS", "A verdict is accepted only if it follows in every model of the current knowledge base."),
             ("4. REVEAL MORE", "A proved verdict flips that card and exposes a new true clue. Continue until all cards are proved."),
             ("5. ASK THE AGENT", "Hint finds one forced next move. Auto Solve performs the same no-guess deduction loop."),
-            ("RESULT MESSAGES", "NOT_PROVABLE means both statuses remain possible. CONTRADICTED means the opposite status is forced."),
+            ("RESULT MESSAGES", "NOT_PROVABLE: both statuses stay possible. CONTRADICTED: the opposite is forced. INCONSISTENT: the KB is unsatisfiable."),
         ]
         for index, (title, body) in enumerate(sections):
             col, row = index % 2, index // 2

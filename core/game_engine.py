@@ -25,14 +25,19 @@ class GameEngine:
         self._public.revealed_clues.clear()
         self._public.proved_statuses.clear()
         for cell in self._puzzle.initially_revealed:
+            # A face-up card publishes both its status and its clue.
             self._public.revealed_clues[cell] = self._puzzle.clues[cell]
+            self._public.proved_statuses[cell] = self._puzzle.solution[cell]
 
     def get_public_state(self):
         return self._public.clone()
 
-    def submit_verdict(self, cell, proposed, classification):
+    def submit_verdict(self, cell, proposed, classification, kb_inconsistent=False):
         """classification comes from LogicAgent, which only received public state."""
         proposed = Status(proposed)
+        if kb_inconsistent:
+            # KB_t is itself unsatisfiable, so no verdict can be entailed.
+            return VerdictResult.INCONSISTENT, None
         forced = classification.get(cell, Status.UNKNOWN)
         if forced == Status.UNKNOWN:
             return VerdictResult.NOT_PROVABLE, None

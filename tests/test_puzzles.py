@@ -21,7 +21,10 @@ class PuzzleTests(unittest.TestCase):
                     self.assertIsNotNone(move, "Deduction chain became UNKNOWN")
                     result, _ = session.submit(*move)
                     self.assertEqual(result.value, "ACCEPTED")
-                self.assertEqual(len(session.trace), puzzle.size ** 2)
+                # Face-up cards are public from the start, so only the remaining
+                # characters need a proved verdict.
+                face_up = len(set(puzzle.initially_revealed))
+                self.assertEqual(len(session.trace), puzzle.size ** 2 - face_up)
                 full_public = PublicState(
                     puzzle.puzzle_id,
                     puzzle.size,

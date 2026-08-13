@@ -1,0 +1,7 @@
+puzzle,decisions_off,decisions_on,propagations_off,propagations_on,backtracks_off,backtracks_on,pure_literals_on,runtime_ms_off,runtime_ms_on
+case_01,0,0,413,413,0,0,0,1.215,1.057
+case_02,0,0,2108,2108,0,0,0,5.173,5.52
+case_03,19,10,402,402,0,0,18,1.074,1.608
+case_04,260,260,2320,2320,0,0,0,8.836,8.193
+case_05,81,81,9206,9206,0,0,0,24.205,23.084
+case_06,227,227,9280,9280,0,0,0,40.159,38.126
