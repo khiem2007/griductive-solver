@@ -1,0 +1,510 @@
+{
+  "id": "ledger_06",
+  "title": "Observatory Roster",
+  "description": "Follow a trail of cross-referenced records through a 5 by 5 investigation.",
+  "size": 5,
+  "characters": [
+    {
+      "cell": "A1",
+      "name": "K. Fenn",
+      "profession": "Glass engraver"
+    },
+    {
+      "cell": "B1",
+      "name": "K. Pike",
+      "profession": "Glass engraver"
+    },
+    {
+      "cell": "C1",
+      "name": "L. Brook",
+      "profession": "Tide recorder"
+    },
+    {
+      "cell": "D1",
+      "name": "L. Reed",
+      "profession": "Tide recorder"
+    },
+    {
+      "cell": "E1",
+      "name": "M. Cove",
+      "profession": "Clock restorer"
+    },
+    {
+      "cell": "A2",
+      "name": "M. Finch",
+      "profession": "Clock restorer"
+    },
+    {
+      "cell": "B2",
+      "name": "N. Lark",
+      "profession": "Seed curator"
+    },
+    {
+      "cell": "C2",
+      "name": "N. Voss",
+      "profession": "Seed curator"
+    },
+    {
+      "cell": "D2",
+      "name": "O. Holt",
+      "profession": "Lantern builder"
+    },
+    {
+      "cell": "E2",
+      "name": "O. Kestrel",
+      "profession": "Lantern builder"
+    },
+    {
+      "cell": "A3",
+      "name": "P. Bell",
+      "profession": "Lens polisher"
+    },
+    {
+      "cell": "B3",
+      "name": "P. Quill",
+      "profession": "Lens polisher"
+    },
+    {
+      "cell": "C3",
+      "name": "P. Yarrow",
+      "profession": "Lens polisher"
+    },
+    {
+      "cell": "D3",
+      "name": "Q. Flint",
+      "profession": "Glass engraver"
+    },
+    {
+      "cell": "E3",
+      "name": "Q. Morrow",
+      "profession": "Glass engraver"
+    },
+    {
+      "cell": "A4",
+      "name": "R. Rowan",
+      "profession": "Tide recorder"
+    },
+    {
+      "cell": "B4",
+      "name": "R. Sable",
+      "profession": "Tide recorder"
+    },
+    {
+      "cell": "C4",
+      "name": "S. Ash",
+      "profession": "Clock restorer"
+    },
+    {
+      "cell": "D4",
+      "name": "S. Vale",
+      "profession": "Clock restorer"
+    },
+    {
+      "cell": "E4",
+      "name": "T. Moss",
+      "profession": "Seed curator"
+    },
+    {
+      "cell": "A5",
+      "name": "T. Wren",
+      "profession": "Seed curator"
+    },
+    {
+      "cell": "B5",
+      "name": "U. Dune",
+      "profession": "Lantern builder"
+    },
+    {
+      "cell": "C5",
+      "name": "U. Rook",
+      "profession": "Lantern builder"
+    },
+    {
+      "cell": "D5",
+      "name": "V. Birch",
+      "profession": "Lens polisher"
+    },
+    {
+      "cell": "E5",
+      "name": "V. Thorne",
+      "profession": "Lens polisher"
+    }
+  ],
+  "solution": {
+    "A1": "INNOCENT",
+    "B1": "INNOCENT",
+    "C1": "CRIMINAL",
+    "D1": "INNOCENT",
+    "E1": "INNOCENT",
+    "A2": "CRIMINAL",
+    "B2": "CRIMINAL",
+    "C2": "INNOCENT",
+    "D2": "INNOCENT",
+    "E2": "INNOCENT",
+    "A3": "CRIMINAL",
+    "B3": "CRIMINAL",
+    "C3": "CRIMINAL",
+    "D3": "INNOCENT",
+    "E3": "CRIMINAL",
+    "A4": "INNOCENT",
+    "B4": "CRIMINAL",
+    "C4": "CRIMINAL",
+    "D4": "INNOCENT",
+    "E4": "CRIMINAL",
+    "A5": "INNOCENT",
+    "B5": "INNOCENT",
+    "C5": "INNOCENT",
+    "D5": "INNOCENT",
+    "E5": "CRIMINAL"
+  },
+  "clues": {
+    "A1": {
+      "id": "PL6-01",
+      "type": "DIFFERENT",
+      "data": {
+        "a": "A1",
+        "b": "A3"
+      },
+      "text": "The verdicts for A1 and A3 are opposites."
+    },
+    "B1": {
+      "id": "PL6-16",
+      "type": "AT_MOST",
+      "data": {
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "C5",
+            "C2",
+            "D3"
+          ]
+        },
+        "k": 0
+      },
+      "text": "Across C5, C2, D3, no more than 0 have criminal verdicts."
+    },
+    "C1": {
+      "id": "PL6-13",
+      "type": "SAME",
+      "data": {
+        "a": "C1",
+        "b": "B2"
+      },
+      "text": "The verdicts for C1 and B2 are equal."
+    },
+    "D1": {
+      "id": "PL6-08",
+      "type": "EXACTLY",
+      "data": {
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "C2",
+            "E5",
+            "E3"
+          ]
+        },
+        "k": 2
+      },
+      "text": "Across C2, E5, E3, precisely 2 have criminal verdicts."
+    },
+    "E1": {
+      "id": "PL6-03",
+      "type": "PARITY",
+      "data": {
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "A1",
+            "A3",
+            "E5"
+          ]
+        },
+        "parity": "EVEN"
+      },
+      "text": "The criminal tally across A1, A3, E5 is even."
+    },
+    "A2": {
+      "id": "PL6-06",
+      "type": "FACT",
+      "data": {
+        "cell": "C2",
+        "status": "INNOCENT"
+      },
+      "text": "The register identifies C2 as innocent."
+    },
+    "B2": {
+      "id": "PL6-14",
+      "type": "EXACTLY",
+      "data": {
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "C4",
+            "E3",
+            "C5"
+          ]
+        },
+        "k": 2
+      },
+      "text": "Across C4, E3, C5, precisely 2 have criminal verdicts."
+    },
+    "C2": {
+      "id": "PL6-07",
+      "type": "SAME",
+      "data": {
+        "a": "C2",
+        "b": "D1"
+      },
+      "text": "The verdicts for C2 and D1 are equal."
+    },
+    "D2": {
+      "id": "PL6-22",
+      "type": "AT_LEAST",
+      "data": {
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "A1",
+            "D3",
+            "C3"
+          ]
+        },
+        "k": 1
+      },
+      "text": "Across A1, D3, C3, no fewer than 1 have criminal verdicts."
+    },
+    "E2": {
+      "id": "PL6-11",
+      "type": "EXACTLY",
+      "data": {
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "E1",
+            "E3",
+            "B5"
+          ]
+        },
+        "k": 1
+      },
+      "text": "Across E1, E3, B5, precisely 1 have criminal verdicts."
+    },
+    "A3": {
+      "id": "PL6-02",
+      "type": "EXACTLY",
+      "data": {
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "A1",
+            "A3",
+            "E1"
+          ]
+        },
+        "k": 1
+      },
+      "text": "Across A1, A3, E1, precisely 1 have criminal verdicts."
+    },
+    "B3": {
+      "id": "PL6-10",
+      "type": "AT_MOST",
+      "data": {
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "A1",
+            "C2",
+            "E2"
+          ]
+        },
+        "k": 0
+      },
+      "text": "Across A1, C2, E2, no more than 0 have criminal verdicts."
+    },
+    "C3": {
+      "id": "PL6-23",
+      "type": "EXACTLY",
+      "data": {
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "C5",
+            "A1",
+            "D4"
+          ]
+        },
+        "k": 0
+      },
+      "text": "Across C5, A1, D4, precisely 0 have criminal verdicts."
+    },
+    "D3": {
+      "id": "PL6-17",
+      "type": "EXACTLY",
+      "data": {
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "B2",
+            "E2",
+            "E4"
+          ]
+        },
+        "k": 2
+      },
+      "text": "Across B2, E2, E4, precisely 2 have criminal verdicts."
+    },
+    "E3": {
+      "id": "PL6-09",
+      "type": "PARITY",
+      "data": {
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "A3",
+            "E5",
+            "B3"
+          ]
+        },
+        "parity": "ODD"
+      },
+      "text": "The criminal tally across A3, E5, B3 is odd."
+    },
+    "A4": {
+      "id": "PL6-21",
+      "type": "PARITY",
+      "data": {
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "C4",
+            "E4",
+            "D2"
+          ]
+        },
+        "parity": "EVEN"
+      },
+      "text": "The criminal tally across C4, E4, D2 is even."
+    },
+    "B4": {
+      "id": "PL6-25",
+      "type": "EXACTLY",
+      "data": {
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "A1",
+            "C3",
+            "E5"
+          ]
+        },
+        "k": 2
+      },
+      "text": "The explicit group (A1, C3, E5) contains exactly 2 criminals."
+    },
+    "C4": {
+      "id": "PL6-05",
+      "type": "EXACTLY",
+      "data": {
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "E1",
+            "A3",
+            "A2"
+          ]
+        },
+        "k": 2
+      },
+      "text": "Across E1, A3, A2, precisely 2 have criminal verdicts."
+    },
+    "D4": {
+      "id": "PL6-24",
+      "type": "FACT",
+      "data": {
+        "cell": "B4",
+        "status": "CRIMINAL"
+      },
+      "text": "The register identifies B4 as criminal."
+    },
+    "E4": {
+      "id": "PL6-18",
+      "type": "FACT",
+      "data": {
+        "cell": "D5",
+        "status": "INNOCENT"
+      },
+      "text": "The register identifies D5 as innocent."
+    },
+    "A5": {
+      "id": "PL6-20",
+      "type": "EXACTLY",
+      "data": {
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "C1",
+            "D5",
+            "A4"
+          ]
+        },
+        "k": 1
+      },
+      "text": "Across C1, D5, A4, precisely 1 have criminal verdicts."
+    },
+    "B5": {
+      "id": "PL6-12",
+      "type": "FACT",
+      "data": {
+        "cell": "C1",
+        "status": "CRIMINAL"
+      },
+      "text": "The register identifies C1 as criminal."
+    },
+    "C5": {
+      "id": "PL6-15",
+      "type": "PARITY",
+      "data": {
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "E5",
+            "A3",
+            "B1"
+          ]
+        },
+        "parity": "EVEN"
+      },
+      "text": "The criminal tally across E5, A3, B1 is even."
+    },
+    "D5": {
+      "id": "PL6-19",
+      "type": "SAME",
+      "data": {
+        "a": "D5",
+        "b": "A5"
+      },
+      "text": "The verdicts for D5 and A5 are equal."
+    },
+    "E5": {
+      "id": "PL6-04",
+      "type": "AT_LEAST",
+      "data": {
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "E5",
+            "E1",
+            "C4"
+          ]
+        },
+        "k": 2
+      },
+      "text": "Across E5, E1, C4, no fewer than 2 have criminal verdicts."
+    }
+  },
+  "initially_revealed": [
+    "A1",
+    "B4"
+  ]
+}

@@ -1,2 +1,3 @@
-pygame>=2.5.2,<3.0
-
+# Runtime: Python 3.11+ with Tkinter/Tcl-Tk, included with standard Windows Python.
+# No pip packages are needed to run `python main.py` or the headless solver.
+# Optional development tooling: pip install -e ".[dev]"

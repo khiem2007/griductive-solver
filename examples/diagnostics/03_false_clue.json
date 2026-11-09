@@ -1,0 +1,140 @@
+{
+  "id": "diagnostic_false",
+  "title": "False statement in input",
+  "size": 3,
+  "characters": [
+    {
+      "cell": "A1",
+      "name": "Person 00",
+      "profession": "Maker"
+    },
+    {
+      "cell": "B1",
+      "name": "Person 01",
+      "profession": "Maker"
+    },
+    {
+      "cell": "C1",
+      "name": "Person 02",
+      "profession": "Maker"
+    },
+    {
+      "cell": "A2",
+      "name": "Person 03",
+      "profession": "Maker"
+    },
+    {
+      "cell": "B2",
+      "name": "Person 04",
+      "profession": "Maker"
+    },
+    {
+      "cell": "C2",
+      "name": "Person 05",
+      "profession": "Maker"
+    },
+    {
+      "cell": "A3",
+      "name": "Person 06",
+      "profession": "Maker"
+    },
+    {
+      "cell": "B3",
+      "name": "Person 07",
+      "profession": "Maker"
+    },
+    {
+      "cell": "C3",
+      "name": "Person 08",
+      "profession": "Maker"
+    }
+  ],
+  "solution": {
+    "A1": "INNOCENT",
+    "B1": "INNOCENT",
+    "C1": "INNOCENT",
+    "A2": "INNOCENT",
+    "B2": "INNOCENT",
+    "C2": "INNOCENT",
+    "A3": "INNOCENT",
+    "B3": "INNOCENT",
+    "C3": "INNOCENT"
+  },
+  "clues": {
+    "A1": {
+      "id": "e0",
+      "type": "FACT",
+      "data": {
+        "cell": "B1",
+        "status": "CRIMINAL"
+      }
+    },
+    "B1": {
+      "id": "e1",
+      "type": "FACT",
+      "data": {
+        "cell": "C1",
+        "status": "INNOCENT"
+      }
+    },
+    "C1": {
+      "id": "e2",
+      "type": "FACT",
+      "data": {
+        "cell": "A2",
+        "status": "INNOCENT"
+      }
+    },
+    "A2": {
+      "id": "e3",
+      "type": "FACT",
+      "data": {
+        "cell": "B2",
+        "status": "INNOCENT"
+      }
+    },
+    "B2": {
+      "id": "e4",
+      "type": "FACT",
+      "data": {
+        "cell": "C2",
+        "status": "INNOCENT"
+      }
+    },
+    "C2": {
+      "id": "e5",
+      "type": "FACT",
+      "data": {
+        "cell": "A3",
+        "status": "INNOCENT"
+      }
+    },
+    "A3": {
+      "id": "e6",
+      "type": "FACT",
+      "data": {
+        "cell": "B3",
+        "status": "INNOCENT"
+      }
+    },
+    "B3": {
+      "id": "e7",
+      "type": "FACT",
+      "data": {
+        "cell": "C3",
+        "status": "INNOCENT"
+      }
+    },
+    "C3": {
+      "id": "e8",
+      "type": "FACT",
+      "data": {
+        "cell": "A1",
+        "status": "INNOCENT"
+      }
+    }
+  },
+  "initially_revealed": [
+    "A1"
+  ]
+}

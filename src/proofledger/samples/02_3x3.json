@@ -1,0 +1,189 @@
+{
+  "id": "ledger_02",
+  "title": "Harbor Receipts",
+  "description": "Follow a trail of cross-referenced records through a 3 by 3 investigation.",
+  "size": 3,
+  "characters": [
+    {
+      "cell": "A1",
+      "name": "L. Morrow",
+      "profession": "Tide recorder"
+    },
+    {
+      "cell": "B1",
+      "name": "M. Sable",
+      "profession": "Clock restorer"
+    },
+    {
+      "cell": "C1",
+      "name": "N. Vale",
+      "profession": "Seed curator"
+    },
+    {
+      "cell": "A2",
+      "name": "O. Wren",
+      "profession": "Lantern builder"
+    },
+    {
+      "cell": "B2",
+      "name": "P. Rook",
+      "profession": "Lens polisher"
+    },
+    {
+      "cell": "C2",
+      "name": "Q. Thorne",
+      "profession": "Glass engraver"
+    },
+    {
+      "cell": "A3",
+      "name": "R. Pike",
+      "profession": "Tide recorder"
+    },
+    {
+      "cell": "B3",
+      "name": "S. Reed",
+      "profession": "Clock restorer"
+    },
+    {
+      "cell": "C3",
+      "name": "T. Finch",
+      "profession": "Seed curator"
+    }
+  ],
+  "solution": {
+    "A1": "INNOCENT",
+    "B1": "INNOCENT",
+    "C1": "CRIMINAL",
+    "A2": "CRIMINAL",
+    "B2": "INNOCENT",
+    "C2": "CRIMINAL",
+    "A3": "CRIMINAL",
+    "B3": "INNOCENT",
+    "C3": "INNOCENT"
+  },
+  "clues": {
+    "A1": {
+      "id": "PL2-01",
+      "type": "DIFFERENT",
+      "data": {
+        "a": "A1",
+        "b": "A3"
+      },
+      "text": "The verdicts for A1 and A3 are opposites."
+    },
+    "B1": {
+      "id": "PL2-05",
+      "type": "EXACTLY",
+      "data": {
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "A1",
+            "A3",
+            "C1"
+          ]
+        },
+        "k": 2
+      },
+      "text": "Across A1, A3, C1, precisely 2 have criminal verdicts."
+    },
+    "C1": {
+      "id": "PL2-06",
+      "type": "IMPLIES",
+      "data": {
+        "a": "C1",
+        "b": "A2"
+      },
+      "text": "A criminal verdict for C1 requires the same verdict for A2."
+    },
+    "A2": {
+      "id": "PL2-07",
+      "type": "DIFFERENT",
+      "data": {
+        "a": "A2",
+        "b": "B3"
+      },
+      "text": "The verdicts for A2 and B3 are opposites."
+    },
+    "B2": {
+      "id": "PL2-09",
+      "type": "EXACTLY",
+      "data": {
+        "region": {
+          "kind": "COLUMN",
+          "index": "B"
+        },
+        "k": 0
+      },
+      "text": "The column group (B1, B2, B3) contains exactly 0 criminals."
+    },
+    "C2": {
+      "id": "PL2-03",
+      "type": "PARITY",
+      "data": {
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "A3",
+            "A1",
+            "C3"
+          ]
+        },
+        "parity": "ODD"
+      },
+      "text": "The criminal tally across A3, A1, C3 is odd."
+    },
+    "A3": {
+      "id": "PL2-02",
+      "type": "EXACTLY",
+      "data": {
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "A1",
+            "A3",
+            "C2"
+          ]
+        },
+        "k": 2
+      },
+      "text": "Across A1, A3, C2, precisely 2 have criminal verdicts."
+    },
+    "B3": {
+      "id": "PL2-08",
+      "type": "EXACTLY",
+      "data": {
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "A1",
+            "A3",
+            "B2"
+          ]
+        },
+        "k": 1
+      },
+      "text": "Across A1, A3, B2, precisely 1 have criminal verdicts."
+    },
+    "C3": {
+      "id": "PL2-04",
+      "type": "AT_MOST",
+      "data": {
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "C3",
+            "A1",
+            "B1"
+          ]
+        },
+        "k": 0
+      },
+      "text": "Across C3, A1, B1, no more than 0 have criminal verdicts."
+    }
+  },
+  "initially_revealed": [
+    "A1",
+    "B2"
+  ]
+}

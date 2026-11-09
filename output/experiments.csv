@@ -1,7 +1,0 @@
-puzzle,size,primary_variables,auxiliary_variables,full_clauses,sat_calls,decisions,propagations,backtracks,pure_literals,deduction_steps,solved,uniqueness,runtime_ms
-case_01,3x3,9,0,22,63,0,413,0,0,7,True,UNIQUE,1.208
-case_02,4x4,16,0,36,224,0,2108,0,0,14,True,UNIQUE,5.725
-case_03,3x3,9,0,16,63,10,402,0,18,7,True,UNIQUE,1.365
-case_04,4x4,16,0,46,224,260,2320,0,0,14,True,UNIQUE,9.128
-case_05,5x5,25,0,124,575,81,9206,0,0,23,True,UNIQUE,23.076
-case_06,5x5,25,0,252,575,227,9280,0,0,23,True,UNIQUE,40.531

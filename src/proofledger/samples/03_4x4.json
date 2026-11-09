@@ -1,0 +1,329 @@
+{
+  "id": "ledger_03",
+  "title": "Clockmakers Circle",
+  "description": "Follow a trail of cross-referenced records through a 4 by 4 investigation.",
+  "size": 4,
+  "characters": [
+    {
+      "cell": "A1",
+      "name": "K. Flint",
+      "profession": "Glass engraver"
+    },
+    {
+      "cell": "B1",
+      "name": "L. Rowan",
+      "profession": "Tide recorder"
+    },
+    {
+      "cell": "C1",
+      "name": "M. Ash",
+      "profession": "Clock restorer"
+    },
+    {
+      "cell": "D1",
+      "name": "M. Wren",
+      "profession": "Clock restorer"
+    },
+    {
+      "cell": "A2",
+      "name": "N. Moss",
+      "profession": "Seed curator"
+    },
+    {
+      "cell": "B2",
+      "name": "N. Rook",
+      "profession": "Seed curator"
+    },
+    {
+      "cell": "C2",
+      "name": "O. Dune",
+      "profession": "Lantern builder"
+    },
+    {
+      "cell": "D2",
+      "name": "O. Thorne",
+      "profession": "Lantern builder"
+    },
+    {
+      "cell": "A3",
+      "name": "P. Birch",
+      "profession": "Lens polisher"
+    },
+    {
+      "cell": "B3",
+      "name": "P. Pike",
+      "profession": "Lens polisher"
+    },
+    {
+      "cell": "C3",
+      "name": "Q. Reed",
+      "profession": "Glass engraver"
+    },
+    {
+      "cell": "D3",
+      "name": "R. Finch",
+      "profession": "Tide recorder"
+    },
+    {
+      "cell": "A4",
+      "name": "S. Lark",
+      "profession": "Clock restorer"
+    },
+    {
+      "cell": "B4",
+      "name": "T. Holt",
+      "profession": "Seed curator"
+    },
+    {
+      "cell": "C4",
+      "name": "U. Yarrow",
+      "profession": "Lantern builder"
+    },
+    {
+      "cell": "D4",
+      "name": "V. Bell",
+      "profession": "Lens polisher"
+    }
+  ],
+  "solution": {
+    "A1": "INNOCENT",
+    "B1": "INNOCENT",
+    "C1": "CRIMINAL",
+    "D1": "INNOCENT",
+    "A2": "INNOCENT",
+    "B2": "INNOCENT",
+    "C2": "INNOCENT",
+    "D2": "CRIMINAL",
+    "A3": "CRIMINAL",
+    "B3": "INNOCENT",
+    "C3": "INNOCENT",
+    "D3": "INNOCENT",
+    "A4": "CRIMINAL",
+    "B4": "INNOCENT",
+    "C4": "INNOCENT",
+    "D4": "INNOCENT"
+  },
+  "clues": {
+    "A1": {
+      "id": "PL3-01",
+      "type": "SAME",
+      "data": {
+        "a": "A1",
+        "b": "D1"
+      },
+      "text": "The verdicts for A1 and D1 are equal."
+    },
+    "B1": {
+      "id": "PL3-03",
+      "type": "PARITY",
+      "data": {
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "A1",
+            "B1",
+            "C3"
+          ]
+        },
+        "parity": "EVEN"
+      },
+      "text": "The criminal tally across A1, B1, C3 is even."
+    },
+    "C1": {
+      "id": "PL3-07",
+      "type": "DIFFERENT",
+      "data": {
+        "a": "C1",
+        "b": "B3"
+      },
+      "text": "The verdicts for C1 and B3 are opposites."
+    },
+    "D1": {
+      "id": "PL3-02",
+      "type": "EXACTLY",
+      "data": {
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "A1",
+            "D1",
+            "B1"
+          ]
+        },
+        "k": 0
+      },
+      "text": "Across A1, D1, B1, precisely 0 have criminal verdicts."
+    },
+    "A2": {
+      "id": "PL3-16",
+      "type": "EXACTLY",
+      "data": {
+        "region": {
+          "kind": "NEIGHBORS",
+          "cell": "B2"
+        },
+        "k": 2
+      },
+      "text": "The neighbors group (A1, B1, C1, A2, C2, A3, B3, C3) contains exactly 2 criminals."
+    },
+    "B2": {
+      "id": "PL3-14",
+      "type": "EXACTLY",
+      "data": {
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "D1",
+            "B1",
+            "B4"
+          ]
+        },
+        "k": 0
+      },
+      "text": "Across D1, B1, B4, precisely 0 have criminal verdicts."
+    },
+    "C2": {
+      "id": "PL3-06",
+      "type": "FACT",
+      "data": {
+        "cell": "C1",
+        "status": "CRIMINAL"
+      },
+      "text": "The register identifies C1 as criminal."
+    },
+    "D2": {
+      "id": "PL3-10",
+      "type": "AT_LEAST",
+      "data": {
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "D2",
+            "A1",
+            "A3"
+          ]
+        },
+        "k": 2
+      },
+      "text": "Across D2, A1, A3, no fewer than 2 have criminal verdicts."
+    },
+    "A3": {
+      "id": "PL3-11",
+      "type": "EXACTLY",
+      "data": {
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "C1",
+            "B3",
+            "D4"
+          ]
+        },
+        "k": 1
+      },
+      "text": "Across C1, B3, D4, precisely 1 have criminal verdicts."
+    },
+    "B3": {
+      "id": "PL3-08",
+      "type": "EXACTLY",
+      "data": {
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "B1",
+            "C1",
+            "A4"
+          ]
+        },
+        "k": 2
+      },
+      "text": "Across B1, C1, A4, precisely 2 have criminal verdicts."
+    },
+    "C3": {
+      "id": "PL3-04",
+      "type": "AT_MOST",
+      "data": {
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "A1",
+            "B1",
+            "C4"
+          ]
+        },
+        "k": 0
+      },
+      "text": "Across A1, B1, C4, no more than 0 have criminal verdicts."
+    },
+    "D3": {
+      "id": "PL3-13",
+      "type": "SAME",
+      "data": {
+        "a": "D3",
+        "b": "B2"
+      },
+      "text": "The verdicts for D3 and B2 are equal."
+    },
+    "A4": {
+      "id": "PL3-09",
+      "type": "PARITY",
+      "data": {
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "D1",
+            "C3",
+            "D2"
+          ]
+        },
+        "parity": "ODD"
+      },
+      "text": "The criminal tally across D1, C3, D2 is odd."
+    },
+    "B4": {
+      "id": "PL3-15",
+      "type": "PARITY",
+      "data": {
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "A4",
+            "D1",
+            "A2"
+          ]
+        },
+        "parity": "ODD"
+      },
+      "text": "The criminal tally across A4, D1, A2 is odd."
+    },
+    "C4": {
+      "id": "PL3-05",
+      "type": "EXACTLY",
+      "data": {
+        "region": {
+          "kind": "EXPLICIT",
+          "cells": [
+            "C3",
+            "B1",
+            "C2"
+          ]
+        },
+        "k": 0
+      },
+      "text": "Across C3, B1, C2, precisely 0 have criminal verdicts."
+    },
+    "D4": {
+      "id": "PL3-12",
+      "type": "IMPLIES",
+      "data": {
+        "a": "D3",
+        "b": "D4"
+      },
+      "text": "If D3 is criminal, D4 must also be criminal."
+    }
+  },
+  "initially_revealed": [
+    "A1",
+    "A2"
+  ]
+}

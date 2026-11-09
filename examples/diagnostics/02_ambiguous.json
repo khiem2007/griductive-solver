@@ -1,0 +1,140 @@
+{
+  "id": "diagnostic_ambiguous",
+  "title": "Two complete assignments",
+  "size": 3,
+  "characters": [
+    {
+      "cell": "A1",
+      "name": "Person 00",
+      "profession": "Maker"
+    },
+    {
+      "cell": "B1",
+      "name": "Person 01",
+      "profession": "Maker"
+    },
+    {
+      "cell": "C1",
+      "name": "Person 02",
+      "profession": "Maker"
+    },
+    {
+      "cell": "A2",
+      "name": "Person 03",
+      "profession": "Maker"
+    },
+    {
+      "cell": "B2",
+      "name": "Person 04",
+      "profession": "Maker"
+    },
+    {
+      "cell": "C2",
+      "name": "Person 05",
+      "profession": "Maker"
+    },
+    {
+      "cell": "A3",
+      "name": "Person 06",
+      "profession": "Maker"
+    },
+    {
+      "cell": "B3",
+      "name": "Person 07",
+      "profession": "Maker"
+    },
+    {
+      "cell": "C3",
+      "name": "Person 08",
+      "profession": "Maker"
+    }
+  ],
+  "solution": {
+    "A1": "INNOCENT",
+    "B1": "INNOCENT",
+    "C1": "INNOCENT",
+    "A2": "INNOCENT",
+    "B2": "INNOCENT",
+    "C2": "INNOCENT",
+    "A3": "INNOCENT",
+    "B3": "INNOCENT",
+    "C3": "INNOCENT"
+  },
+  "clues": {
+    "A1": {
+      "id": "relation0",
+      "type": "SAME",
+      "data": {
+        "a": "A1",
+        "b": "B1"
+      }
+    },
+    "B1": {
+      "id": "relation1",
+      "type": "SAME",
+      "data": {
+        "a": "B1",
+        "b": "C1"
+      }
+    },
+    "C1": {
+      "id": "relation2",
+      "type": "SAME",
+      "data": {
+        "a": "C1",
+        "b": "A2"
+      }
+    },
+    "A2": {
+      "id": "relation3",
+      "type": "SAME",
+      "data": {
+        "a": "A2",
+        "b": "B2"
+      }
+    },
+    "B2": {
+      "id": "relation4",
+      "type": "SAME",
+      "data": {
+        "a": "B2",
+        "b": "C2"
+      }
+    },
+    "C2": {
+      "id": "relation5",
+      "type": "SAME",
+      "data": {
+        "a": "C2",
+        "b": "A3"
+      }
+    },
+    "A3": {
+      "id": "relation6",
+      "type": "SAME",
+      "data": {
+        "a": "A3",
+        "b": "B3"
+      }
+    },
+    "B3": {
+      "id": "relation7",
+      "type": "SAME",
+      "data": {
+        "a": "B3",
+        "b": "C3"
+      }
+    },
+    "C3": {
+      "id": "relation8",
+      "type": "SAME",
+      "data": {
+        "a": "C3",
+        "b": "A1"
+      }
+    }
+  },
+  "initially_revealed": [
+    "A1"
+  ]
+}
