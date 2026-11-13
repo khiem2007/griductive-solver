@@ -1,15 +1,16 @@
 from uuid import uuid4
 
 from proofledger.cases.import_json import Definition
-from proofledger.cases.vault import Vault
+from proofledger.investigation.journal import Entry
 from proofledger.contracts.messages import PublicSnapshot
 from proofledger.contracts.values import Clue, Outcome, Verdict
-from proofledger.investigation.journal import Entry
+from proofledger.cases.vault import Vault
 from proofledger.reasoning.inference import Analysis, next_move
 
 
 class Investigation:
     def __init__(self, definition: Definition):
+        """Create a revision-tracked session around a private puzzle vault."""
         self.title = definition.title
         self.description = definition.description
         self.initial_count = len(definition.initial)
@@ -23,19 +24,23 @@ class Investigation:
 
     @property
     def public(self) -> PublicSnapshot:
+        """Return the current public-only snapshot for UI and solver consumers."""
         return self._vault.snapshot(self._session, self._revision)
 
     @property
     def journal(self) -> tuple[Entry, ...]:
+        """Expose accepted deduction steps as an immutable sequence."""
         return tuple(self._journal)
 
     def receive(self, analysis: Analysis) -> bool:
+        """Accept analysis only when its session and revision are still current."""
         if (analysis.session, analysis.revision) != (self._session, self._revision):
             return False
         self.analysis = analysis
         return True
 
     def reset(self):
+        """Restart the puzzle, invalidate old analysis, and clear deduction history."""
         self._vault.reset()
         self._revision += 1
         self._journal.clear()
@@ -43,11 +48,13 @@ class Investigation:
         self.selected = self.evidence_owner = None
 
     def hint(self) -> tuple[str, Verdict] | None:
+        """Return the first deterministic forced move from the current analysis."""
         if self.analysis is None:
             return None
         return next_move(self.public, self.analysis)
 
     def select(self, cell: str, observe: bool = False) -> bool:
+        """Select a valid cell, restricting Observe mode to published evidence."""
         snapshot = self.public
         if cell not in {person.cell for person in snapshot.people}:
             return False
@@ -59,14 +66,17 @@ class Investigation:
 
     @property
     def evidence(self) -> Clue | None:
+        """Return the published clue owned by the selected evidence card."""
         return dict(self.public.clues).get(self.evidence_owner)
 
     @property
     def references(self) -> tuple[str, ...]:
+        """Return coordinates referenced by the currently selected clue."""
         clue = self.evidence
         return clue.cells if clue else ()
 
     def submit(self, cell: str | None, verdict: Verdict) -> Outcome:
+        """Validate a proposed verdict and atomically publish its status and clue."""
         snapshot = self.public
         if (cell not in {person.cell for person in snapshot.people}
                 or cell in dict(snapshot.facts)

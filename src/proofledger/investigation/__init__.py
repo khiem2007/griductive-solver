@@ -1,1 +1,1 @@
-"""Commands, investigation lifecycle and accepted-deduction history."""
+"""Revision-safe game coordination, deduction journal, and automation policy."""

@@ -2,6 +2,7 @@ from proofledger.contracts.values import board_cells, cell_position
 
 
 def resolve_region(raw: dict, size: int) -> tuple[str, ...]:
+    """Resolve and validate a structured region selector into board coordinates."""
     if not isinstance(raw, dict):
         raise ValueError("Region must be an object")
     kind = str(raw.get("kind", "")).upper()

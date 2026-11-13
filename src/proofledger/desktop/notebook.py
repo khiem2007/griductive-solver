@@ -7,6 +7,7 @@ from proofledger.desktop import appearance as a
 
 class Notebook(ttk.Notebook):
     def __init__(self, parent, focus_cell):
+        """Create evidence, chronology, and solver-analysis tabs."""
         super().__init__(parent)
         self.focus_cell = focus_cell
         self.evidence = ttk.Frame(self, padding=12)
@@ -23,6 +24,7 @@ class Notebook(ttk.Notebook):
 
     @staticmethod
     def _reader(parent, height):
+        """Create a read-only styled text widget with a vertical scrollbar."""
         frame = ttk.Frame(parent)
         frame.pack(fill="both", expand=True)
         text = tk.Text(frame, wrap="word", height=height, width=25, font="TkTextFont", background=a.SURFACE,
@@ -35,12 +37,14 @@ class Notebook(ttk.Notebook):
 
     @staticmethod
     def write(widget, content):
+        """Replace a read-only text widget's contents without leaving it editable."""
         widget.configure(state="normal")
         widget.delete("1.0", "end")
         widget.insert("1.0", content)
         widget.configure(state="disabled")
 
     def refresh(self, investigation):
+        """Render current public evidence, accepted steps, and analysis metrics."""
         clue = investigation.evidence
         text = "Choose a published identity to examine its statement. Unresolved evidence stays sealed."
         if clue:
@@ -86,6 +90,7 @@ class Notebook(ttk.Notebook):
 
 
 def describe(clue):
+    """Convert a structured clue into concise natural-language display text."""
     cells = ", ".join(clue.cells)
     if clue.kind == "FACT":
         return f"{cells} has a {clue.target.value.lower()} verdict."

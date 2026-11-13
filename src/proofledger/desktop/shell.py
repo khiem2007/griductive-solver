@@ -2,7 +2,9 @@ import time
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 
+from proofledger.investigation.automation import AutoPilot
 from proofledger.cases.catalog import sample_directory
+from proofledger.investigation.coordinator import Investigation
 from proofledger.cases.import_json import PuzzleError, load_definition
 from proofledger.contracts.values import Outcome
 from proofledger.desktop import appearance
@@ -10,12 +12,11 @@ from proofledger.desktop.guidance import show_guide
 from proofledger.desktop.library import Library
 from proofledger.desktop.tasks import ReasoningTask, WorkerFailure
 from proofledger.desktop.workspace import Workspace
-from proofledger.investigation.automation import AutoPilot
-from proofledger.investigation.coordinator import Investigation
 
 
 class Shell:
     def __init__(self, root, directory=None):
+        """Compose the application shell and initialize worker and automation state."""
         self.root = root
         self.root.title("Proof Ledger")
         self.root.geometry("1180x860")
@@ -50,14 +51,17 @@ class Shell:
         self._timer = self.root.after(60, self.poll)
 
     def say(self, message):
+        """Display a user-facing status message in the fixed footer."""
         self.workspace.message.configure(text=message)
 
     def refresh(self):
+        """Refresh visible controls from the current investigation state."""
         if self.case:
             self.workspace.refresh(self.case, self.mode.get() == "Observe", self.auto.running,
                                    self.task.busy)
 
     def load(self, path):
+        """Validate and open a puzzle, then request its initial public analysis."""
         try:
             definition = load_definition(path)
         except PuzzleError as exc:
@@ -74,12 +78,14 @@ class Shell:
         self.workspace.canvas.yview_moveto(0)
 
     def open_file(self):
+        """Show the JSON file picker and load the chosen investigation."""
         path = filedialog.askopenfilename(parent=self.root, title="Open investigation JSON",
                                           filetypes=(("Investigation", "*.json"), ("All files", "*.*")))
         if path:
             self.load(path)
 
     def request_analysis(self):
+        """Start isolated reasoning for the current public snapshot."""
         try:
             self.task.start(self.case.public)
         except Exception as exc:
@@ -88,22 +94,26 @@ class Shell:
         self.refresh()
 
     def select(self, cell):
+        """Select a card according to the active interaction mode."""
         if self.case and self.case.select(cell, observe=self.mode.get() == "Observe"):
             self.refresh()
 
     def change_mode(self):
+        """Apply Hands-on or Observe selection rules and redraw the workspace."""
         if self.case and self.mode.get() == "Observe":
             if self.case.selected not in dict(self.case.public.facts):
                 self.case.selected = self.case.evidence_owner = None
         self.refresh()
 
     def submit(self, verdict):
+        """Submit a verdict for the selected cell through the game coordinator."""
         if self.case is None:
             return
         result = self.case.submit(self.case.selected, verdict)
         self.after_verdict(result)
 
     def after_verdict(self, result):
+        """Update messages, analysis, and automation after a verdict outcome."""
         messages = {
             Outcome.NOT_PROVABLE: "NOT_PROVABLE: both verdicts remain possible; the statement stays sealed.",
             Outcome.CONTRADICTED: "CONTRADICTED: the opposite verdict is proved; the statement stays sealed.",
@@ -124,6 +134,7 @@ class Shell:
         self.refresh()
 
     def hint(self):
+        """Focus and explain the first currently provable unresolved identity."""
         if not self.case or self.task.busy:
             return
         analysis = self.case.analysis
@@ -147,6 +158,7 @@ class Shell:
             self.refresh()
 
     def run(self):
+        """Toggle clock-driven automatic submission of forced verdicts."""
         if not self.case:
             return
         if self.auto.running:
@@ -159,6 +171,7 @@ class Shell:
         self.refresh()
 
     def reset(self):
+        """Cancel work and restore the current puzzle's starting evidence."""
         if self.case:
             self.task.cancel()
             self.auto.stop()
@@ -167,6 +180,7 @@ class Shell:
             self.say("Restored the starting evidence. Previous deductions were cleared.")
 
     def poll(self):
+        """Poll background reasoning and advance automation without blocking Tk."""
         if self.closed:
             return
         result = self.task.poll()
@@ -190,6 +204,7 @@ class Shell:
         self._timer = self.root.after(60, self.poll)
 
     def _layout(self):
+        """Choose docked or overlay library placement for the current window width."""
         wide = self.root.winfo_width() >= 1100
         if wide:
             self.library.place_forget()
@@ -203,15 +218,18 @@ class Shell:
                 self.library.place_forget()
 
     def layout(self, event):
+        """Recompute responsive layout when the root window is configured."""
         if event.widget == self.root:
             self._layout()
 
     def toggle_library(self):
+        """Toggle and focus the library overlay on narrow layouts."""
         self.overlay = not self.overlay
         self._layout()
         self.library.listbox.focus_set()
 
     def key(self, event):
+        """Dispatch global shortcuts while leaving editable widgets untouched."""
         if isinstance(event.widget, (tk.Entry, ttk.Entry, ttk.Combobox)) or (
                 isinstance(event.widget, tk.Text) and event.widget.cget("state") == "normal"):
             return
@@ -226,10 +244,12 @@ class Shell:
             action()
 
     def wheel(self, event):
+        """Scroll the workspace canvas for wheel events over non-text widgets."""
         if str(event.widget).startswith(str(self.workspace)) and not isinstance(event.widget, tk.Text):
             self.workspace.canvas.yview_scroll(-int(event.delta / 120), "units")
 
     def close(self):
+        """Cancel callbacks and child work before destroying the Tk root."""
         self.closed = True
         self.root.after_cancel(self._timer)
         self.auto.stop()

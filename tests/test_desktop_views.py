@@ -7,10 +7,10 @@ from unittest.mock import patch
 
 from helpers import puzzle
 
-from proofledger.cases.import_json import parse_definition
-from proofledger.desktop.shell import Shell
 from proofledger.investigation.coordinator import Investigation
+from proofledger.cases.import_json import parse_definition
 from proofledger.reasoning.inference import analyze
+from proofledger.desktop.shell import Shell
 
 
 class DesktopTests(unittest.TestCase):

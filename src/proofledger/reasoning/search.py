@@ -15,6 +15,7 @@ class Counters:
     runtime_ms: float = 0.0
 
     def __add__(self, other: "Counters") -> "Counters":
+        """Combine corresponding metrics from independent SAT calls."""
         return Counters(**{f.name: getattr(self, f.name) + getattr(other, f.name)
                            for f in fields(self)})
 
@@ -32,6 +33,7 @@ def solve(formula: Formula, assumptions: tuple[int, ...] = (), pure: bool = True
     source = formula.clauses + tuple((value,) for value in assumptions)
     decisions = propagations = backtracks = pure_count = 0
     def visit(active, assigned):
+        """Recursively propagate, branch, and backtrack until a model or conflict is found."""
         nonlocal decisions, propagations, backtracks, pure_count
         while True:
             remaining = []

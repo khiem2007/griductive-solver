@@ -12,10 +12,12 @@ class CatalogEntry:
 
 
 def sample_directory() -> Path:
-    return Path(__file__).resolve().parents[1] / "samples"
+    """Locate the package's bundled JSON investigations."""
+    return Path(__file__).resolve().parent.parent / "samples"
 
 
 def discover(directory: Path) -> tuple[CatalogEntry, ...]:
+    """Load every JSON file while preserving invalid files as catalog error entries."""
     entries = []
     for path in sorted(directory.glob("*.json")):
         try:

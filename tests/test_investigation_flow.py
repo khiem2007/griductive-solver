@@ -3,9 +3,9 @@ import unittest
 
 from helpers import puzzle
 
+from proofledger.investigation.coordinator import Investigation
 from proofledger.cases.import_json import parse_definition
 from proofledger.contracts.values import Outcome, Verdict
-from proofledger.investigation.coordinator import Investigation
 from proofledger.reasoning.inference import analyze
 
 

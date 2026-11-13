@@ -120,9 +120,9 @@ class ReportTests(unittest.TestCase):
     def test_small_sample_deductions_against_exhaustive_public_models(self):
         import itertools
 
+        from proofledger.investigation.coordinator import Investigation
         from proofledger.cases.import_json import load_definition
         from proofledger.contracts.values import Outcome, Verdict
-        from proofledger.investigation.coordinator import Investigation
         from proofledger.reasoning.inference import analyze
         from proofledger.reasoning.truth import holds
 

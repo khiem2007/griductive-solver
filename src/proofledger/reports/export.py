@@ -17,6 +17,7 @@ ABLATION_COLUMNS = (
 
 
 def write_csv(path, columns, rows):
+    """Write rows using a fixed, explicit CSV column contract."""
     with path.open("w", encoding="utf-8", newline="") as stream:
         writer = csv.DictWriter(stream, fieldnames=columns)
         writer.writeheader()
@@ -24,6 +25,7 @@ def write_csv(path, columns, rows):
 
 
 def export_reports(directory: Path, reports: list[Report], without_pure: list[Report]):
+    """Export metrics, deduction traces, and the pure-literal ablation comparison."""
     identifiers = [report.metrics["puzzle"] for report in reports]
     on_inputs = [r.metrics["source_file"] or r.metrics["puzzle"] for r in reports]
     off_inputs = [r.metrics["source_file"] or r.metrics["puzzle"] for r in without_pure]

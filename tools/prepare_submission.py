@@ -8,6 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def main(argv=None):
+    """Validate submission inputs and create the required student-ID archive."""
     parser = argparse.ArgumentParser(description="Package Source/ and an existing Report.pdf")
     parser.add_argument("--ids", nargs="+", required=True, help="Actual student IDs in submission order")
     parser.add_argument("--report", type=Path, required=True, help="Final PDF, including the Drive demo URL")

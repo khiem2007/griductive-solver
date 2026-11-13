@@ -13,6 +13,7 @@ LINE = "#D7D2C9"
 
 
 def configure(root):
+    """Apply the shared Tk/ttk color, typography, and widget style system."""
     families = tkfont.families(root)
     family = "Segoe UI" if "Segoe UI" in families else "TkDefaultFont"
     tkfont.nametofont("TkDefaultFont").configure(family=family, size=11)

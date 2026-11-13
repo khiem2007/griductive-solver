@@ -1,1 +1,1 @@
-"""Reasoning consumes public contracts, never private puzzle definitions."""
+"""Public-only region semantics, CNF encoding, DPLL, and entailment."""

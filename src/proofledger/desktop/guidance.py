@@ -28,6 +28,7 @@ Analysis runs in an isolated process using only public evidence. These local puz
 
 
 def show_guide(root):
+    """Open the non-modal deduction and keyboard-shortcut guide window."""
     window = tk.Toplevel(root)
     window.title("Proof Ledger · Deduction guide")
     window.geometry("650x650")

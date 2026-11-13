@@ -1,1 +1,1 @@
-"""Native desktop views; no drawing or event loop is required for headless reports."""
+"""Tkinter views, user actions and background analysis lifecycle."""

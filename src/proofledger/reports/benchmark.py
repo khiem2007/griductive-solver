@@ -10,6 +10,7 @@ from proofledger.reports.runner import Report, run_case
 
 
 def failure(path: Path, status: str, error: str, runtime_ms: float) -> Report:
+    """Build a schema-compatible report row for invalid, failed, or timed-out runs."""
     metrics = {name: None for name in (
         "size", "primary_variables", "auxiliary_variables", "full_clauses", "sat_calls",
         "decisions", "propagations", "backtracks", "pure_literals", "deduction_steps")}
@@ -19,6 +20,7 @@ def failure(path: Path, status: str, error: str, runtime_ms: float) -> Report:
 
 
 def _run(sender, path: Path, pure: bool):
+    """Execute one benchmark in a child process and send back a report."""
     started = perf_counter()
     try:
         report = run_case(path, pure)
@@ -33,6 +35,7 @@ def _run(sender, path: Path, pure: bool):
 
 
 def run_limited(path: Path, pure: bool, timeout: float) -> Report:
+    """Run one puzzle/mode pair in an isolated process with a hard timeout."""
     if not math.isfinite(timeout) or timeout <= 0:
         raise ValueError("Timeout must be positive")
     context = mp.get_context("spawn")

@@ -2,6 +2,7 @@ import multiprocessing
 
 
 def main():
+    """Initialize multiprocessing support and run the Tk desktop application."""
     multiprocessing.freeze_support()
     try:
         import tkinter as tk

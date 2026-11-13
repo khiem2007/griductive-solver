@@ -8,6 +8,7 @@ from proofledger.desktop.notebook import describe
 
 class Board(ttk.Frame):
     def __init__(self, parent, on_select):
+        """Initialize an empty keyboard-accessible grid of investigation cards."""
         super().__init__(parent)
         self.on_select = on_select
         self.buttons = {}
@@ -17,6 +18,7 @@ class Board(ttk.Frame):
         self.size = 0
 
     def populate(self, snapshot):
+        """Build card widgets and coordinate headers for a new public snapshot."""
         for child in self.winfo_children():
             child.destroy()
         self.buttons.clear()
@@ -57,21 +59,25 @@ class Board(ttk.Frame):
 
     @staticmethod
     def wrap_card(event, button, statement):
+        """Adapt card text wrapping to the current frame width."""
         width = max(65, event.width - 16)
         button.configure(wraplength=width)
         statement.configure(wraplength=width)
 
     def move_focus(self, index, delta):
+        """Move keyboard focus by a row or column offset within the board."""
         target = index + delta
         if 0 <= target < len(self.cells):
             self.buttons[self.cells[target]].focus_set()
         return "break"
 
     def focus_cell(self, cell):
+        """Move keyboard focus to a known coordinate when available."""
         if cell in self.buttons:
             self.buttons[cell].focus_set()
 
     def refresh(self, investigation):
+        """Render public statuses, clues, selection, and referenced cells."""
         snapshot = investigation.public
         known = dict(snapshot.facts)
         clues = dict(snapshot.clues)

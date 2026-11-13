@@ -2,10 +2,10 @@ import unittest
 
 from helpers import puzzle
 
-from proofledger.cases.import_json import parse_definition
-from proofledger.contracts.values import Outcome
 from proofledger.investigation.automation import AutoPilot
 from proofledger.investigation.coordinator import Investigation
+from proofledger.cases.import_json import parse_definition
+from proofledger.contracts.values import Outcome
 from proofledger.reasoning.inference import analyze
 
 

@@ -27,12 +27,14 @@ class Definition:
 
 
 def _text(value, field: str, allow_empty: bool = False) -> str:
+    """Validate a textual JSON field and return it unchanged."""
     if not isinstance(value, str) or (not value.strip() and not allow_empty):
         raise ValueError(f"{field} must be text" + ("" if allow_empty else " and nonempty"))
     return value
 
 
 def _binary(value) -> Verdict:
+    """Convert a value to a non-UNKNOWN verdict used by solutions and FACT clues."""
     verdict = Verdict(value)
     if verdict == Verdict.UNKNOWN:
         raise ValueError("Solution and FACT statements require a binary status")
@@ -40,6 +42,7 @@ def _binary(value) -> Verdict:
 
 
 def parse_clue(raw: dict, owner: str, size: int) -> Clue:
+    """Validate one structured clue and normalize its referenced coordinates."""
     kind = _text(raw["type"], "Clue type").upper()
     identifier = _text(raw.get("id", f"evidence:{owner}"), "Clue ID")
     text = _text(raw.get("text", ""), "Clue text", allow_empty=True)
@@ -73,6 +76,7 @@ def parse_clue(raw: dict, owner: str, size: int) -> Clue:
 
 
 def parse_definition(raw: dict, *, require_unique: bool = True) -> Definition:
+    """Validate a puzzle object and build an immutable private definition."""
     try:
         if not isinstance(raw, dict):
             raise ValueError("Puzzle root must be an object")
@@ -116,6 +120,7 @@ def parse_definition(raw: dict, *, require_unique: bool = True) -> Definition:
 
 
 def _unique_object(pairs):
+    """Build a decoded JSON object while rejecting duplicate keys."""
     result = {}
     for key, value in pairs:
         if key in result:
@@ -125,6 +130,7 @@ def _unique_object(pairs):
 
 
 def load_definition(path: str | Path, *, require_unique: bool = True) -> Definition:
+    """Read a UTF-8 puzzle file and validate it as a complete definition."""
     try:
         raw = json.loads(Path(path).read_text(encoding="utf-8"), object_pairs_hook=_unique_object)
         return parse_definition(raw, require_unique=require_unique)

@@ -70,10 +70,11 @@ UNKNOWN là kết quả phân loại của một người chưa được xác đ
 
 ### 3.1. Sơ đồ kiến trúc
 
-Trình bày sơ đồ `cases/vault → PublicSnapshot → reasoning → investigation → desktop` và nhánh `reports` chạy không cần GUI.
+Trình bày ba miền `logic_game`, `solver`, `UI` theo `ARCHITECTURE.md`. Luồng chính: `cases/Vault → PublicSnapshot → reasoning → investigation → desktop`; nhánh `reports` chạy không cần GUI.
 
 | Thành phần | Trách nhiệm | File chính |
 |---|---|---|
+| Hợp đồng công khai | Giá trị bất biến và PublicSnapshot | contracts/values.py, messages.py |
 | Game Engine / kho riêng | Giữ đề đầy đủ, xác nhận reveal | cases/vault.py |
 | Điều phối phiên | Kiểm tra revision, xử lý phán quyết và journal | investigation/coordinator.py |
 | Logic Agent | Chỉ nhận public snapshot, phân loại và tìm forced move | reasoning/inference.py |

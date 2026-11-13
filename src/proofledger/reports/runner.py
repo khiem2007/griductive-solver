@@ -3,10 +3,10 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from time import perf_counter
 
+from proofledger.investigation.coordinator import Investigation
 from proofledger.cases.import_json import Definition, load_definition
 from proofledger.contracts.messages import PublicSnapshot
 from proofledger.contracts.values import Outcome
-from proofledger.investigation.coordinator import Investigation
 from proofledger.reasoning.compiler import compile_snapshot
 from proofledger.reasoning.inference import analyze, uniqueness
 from proofledger.reasoning.search import Counters
@@ -19,6 +19,7 @@ class Report:
 
 
 def run_definition(definition: Definition, pure: bool = True) -> Report:
+    """Solve a validated definition through the public investigation workflow."""
     started = perf_counter()
     case = Investigation(definition)
     cumulative = Counters()
@@ -57,4 +58,5 @@ def run_definition(definition: Definition, pure: bool = True) -> Report:
 
 
 def run_case(path: Path, pure: bool = True) -> Report:
+    """Load one puzzle file and run its headless deduction report."""
     return run_definition(load_definition(path), pure)

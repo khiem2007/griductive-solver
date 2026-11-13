@@ -7,6 +7,7 @@ from proofledger.desktop import appearance as a
 
 class Library(ttk.Frame):
     def __init__(self, parent, directory, on_load, on_open, on_help):
+        """Create the puzzle catalog, size filter, and navigation controls."""
         super().__init__(parent, padding=12)
         self.entries = discover(directory)
         self.on_load = on_load
@@ -35,6 +36,7 @@ class Library(ttk.Frame):
         self.refresh()
 
     def refresh(self):
+        """Filter catalog entries by board size and refresh the listbox."""
         size = None if self.filter.get() == "All sizes" else int(self.filter.get()[0])
         self.visible = [e for e in self.entries if size is None or
                         (e.definition is not None and e.definition.size == size)]
@@ -47,6 +49,7 @@ class Library(ttk.Frame):
             self.listbox.selection_set(0)
 
     def activate(self, _event=None):
+        """Load the selected valid catalog entry through the supplied callback."""
         selection = self.listbox.curselection()
         if selection:
             self.on_load(self.visible[selection[0]].path)

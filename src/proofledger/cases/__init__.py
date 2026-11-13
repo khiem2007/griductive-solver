@@ -1,1 +1,1 @@
-"""Private puzzle import, catalog and reveal authority."""
+"""Puzzle loading, catalog discovery, validation, and private reveal authority."""

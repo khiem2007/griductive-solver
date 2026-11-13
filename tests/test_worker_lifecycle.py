@@ -3,10 +3,10 @@ import unittest
 
 from helpers import puzzle
 
-from proofledger.cases.import_json import parse_definition
-from proofledger.desktop.tasks import ReasoningTask, WorkerFailure
 from proofledger.investigation.coordinator import Investigation
+from proofledger.cases.import_json import parse_definition
 from proofledger.reasoning.inference import Analysis
+from proofledger.desktop.tasks import ReasoningTask, WorkerFailure
 
 
 class WorkerTests(unittest.TestCase):

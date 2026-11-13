@@ -13,6 +13,7 @@ class Formula:
 
     @property
     def auxiliary_variables(self) -> int:
+        """Count variables introduced after the deterministic primary variables."""
         return self.variables - len(self.cells)
 
 
@@ -20,12 +21,14 @@ class Circuit:
     """Tseitin gates and a threshold-counting circuit, with constant folding."""
 
     def __init__(self, cells: tuple[str, ...]):
+        """Initialize deterministic primary indexes and an empty CNF formula."""
         self.cells = cells
         self.index = {cell: i + 1 for i, cell in enumerate(cells)}
         self.variables = len(cells)
         self.clauses: list[tuple[int, ...]] = []
 
     def require(self, value: int | bool):
+        """Require a literal or folded Boolean constant to be true."""
         if type(value) is bool:
             if not value:
                 self.clauses.append(())
@@ -33,6 +36,7 @@ class Circuit:
             self.clauses.append((value,))
 
     def gate(self, kind: str, left: int | bool, right: int | bool) -> int | bool:
+        """Create a folded or Tseitin-encoded binary Boolean gate."""
         if type(left) is bool or type(right) is bool:
             constant, other = (left, right) if type(left) is bool else (right, left)
             if kind == "AND":
@@ -51,9 +55,12 @@ class Circuit:
 
     @staticmethod
     def negate(value: int | bool) -> int | bool:
+        """Negate a literal or Boolean constant without creating a variable."""
         return not value if type(value) is bool else -value
 
     def statement(self, clue: Clue):
+        """Validate and append the CNF representation of one public clue."""
+        self.validate(clue)
         inputs = tuple(self.index[cell] for cell in clue.cells)
         if clue.kind == "FACT":
             self.require(inputs[0] if clue.target == Verdict.CRIMINAL else -inputs[0])
@@ -75,6 +82,27 @@ class Circuit:
                 self.bound(tuple(-value for value in inputs), len(inputs) - k)
             if clue.kind in {"AT_MOST", "EXACTLY"}:
                 self.bound(inputs, k)
+
+    def validate(self, clue: Clue):
+        """Validate structured clues even when callers bypass the JSON importer."""
+        if clue.kind not in {"FACT", "SAME", "DIFFERENT", "IMPLIES",
+                             "EXACTLY", "AT_LEAST", "AT_MOST", "PARITY"}:
+            raise ValueError(f"Cannot compile {clue.kind}")
+        if not clue.cells or len(set(clue.cells)) != len(clue.cells):
+            raise ValueError("Clue references must be nonempty and distinct")
+        if any(cell not in self.index for cell in clue.cells):
+            raise ValueError("Clue references a coordinate outside this board")
+        if clue.kind == "FACT":
+            if len(clue.cells) != 1 or clue.target not in (Verdict.CRIMINAL, Verdict.INNOCENT):
+                raise ValueError("FACT requires one coordinate and a binary status")
+        elif clue.kind in {"SAME", "DIFFERENT", "IMPLIES"}:
+            if len(clue.cells) != 2:
+                raise ValueError("A binary relation requires two distinct coordinates")
+        elif clue.kind == "PARITY":
+            if type(clue.odd) is not bool:
+                raise ValueError("Parity must be Boolean")
+        elif type(clue.count) is not int or not 0 <= clue.count <= len(clue.cells):
+            raise ValueError("Count must be an integer within the region's bounds")
 
     def bound(self, inputs: tuple[int, ...], maximum: int):
         """Prefix lower bounds plus overflow clauses enforce an upper count limit.
@@ -107,13 +135,17 @@ class Circuit:
             previous = current
 
     def finish(self) -> Formula:
+        """Freeze the accumulated circuit as an immutable formula."""
         return Formula(self.cells, tuple(self.clauses), self.variables)
 
 
 def compile_snapshot(snapshot: PublicSnapshot) -> Formula:
+    """Compile revealed clues and proved verdicts from a public snapshot into CNF."""
     circuit = Circuit(tuple(person.cell for person in snapshot.people))
     for _, clue in snapshot.clues:
         circuit.statement(clue)
     for cell, verdict in snapshot.facts:
+        if cell not in circuit.index or verdict not in (Verdict.CRIMINAL, Verdict.INNOCENT):
+            raise ValueError("Known verdicts require board coordinates and binary statuses")
         circuit.require(circuit.index[cell] if verdict == Verdict.CRIMINAL else -circuit.index[cell])
     return circuit.finish()

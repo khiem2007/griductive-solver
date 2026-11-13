@@ -9,6 +9,7 @@ from proofledger.reports.export import export_reports
 
 
 def main(argv=None):
+    """Run bounded experiments for all JSON puzzles and export three reports."""
     parser = argparse.ArgumentParser(description="Run public-only deductions and export metrics")
     parser.add_argument("--puzzles", type=Path, default=sample_directory(), help="Directory of JSON cases")
     parser.add_argument("--output", type=Path, default=Path("output"), help="Directory for the three reports")

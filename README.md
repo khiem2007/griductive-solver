@@ -10,7 +10,7 @@ The course PDF has now been audited: see [requirements audit](docs/COURSE_REQUIR
 
 Python 3.11+ with Tkinter is required. There are no third-party runtime dependencies. On Linux, install your distribution's Python Tk package if it is missing. On Windows, include Tcl/Tk when installing Python.
 
-Run these commands **inside `griductive-rebuild`**:
+Run these commands from the repository root:
 
 ```powershell
 python main.py
@@ -109,13 +109,33 @@ The approved loader intentionally rejects duplicate records/JSON keys/reveals, f
 
 ## Architecture
 
-`contracts` defines frozen, tuple-based public values. `cases` imports private puzzles and owns reveal authority. `reasoning` implements regions, independent truth evaluation, threshold/XOR circuits, iterative DPLL, entailment and projected uniqueness. `investigation` coordinates revision-checked results, selection, the accepted-step journal and automation policy. `desktop` supplies native Tk/ttk views and an isolated computation process. `reports` runs the same domain flow without importing the GUI.
+The source separates three responsibility domains across small, dependency-focused packages:
+
+```text
+src/proofledger/
+  contracts/                        # immutable values and public snapshots
+  cases/                            # loader, validation, catalog and private Vault
+  investigation/                    # verdicts, revisions, journal and Auto Solve
+  reasoning/                        # regions, evaluator, CNF, DPLL and inference
+  reports/                          # headless experiments and CSV/JSON exports
+  desktop/
+    shell.py, library.py            # application, navigation and Load
+    workspace.py, board.py          # controls and visible cards
+    notebook.py, guidance.py        # evidence, history, metrics and help
+    appearance.py, tasks.py         # styling and background worker lifecycle
+  samples/                          # six original JSON puzzles
+  launch.py, __main__.py            # thin entry points
+```
+
+The `logic_game` domain consists of `contracts`, `cases`, `investigation`, and `samples`; it owns the complete puzzle and authorized reveal state. The solver domain consists of `reasoning` and `reports`. The UI domain is `desktop` plus the thin entry points. Algorithms in `reasoning` import only public `contracts`; they receive a `PublicSnapshot` and cannot import the private vault, loader, coordinator, or desktop. `reports` composes the engine and solver without loading Tkinter. See the [architecture diagrams](docs/ARCHITECTURE.md) for dependency and deduction-flow views.
+
+The CNF encoder also validates clues and known verdicts when called directly without JSON loading. Invalid FACT targets, counts, relation endpoints and coordinates raise errors instead of becoming evidence.
 
 The worker receives only a `PublicSnapshot`, containing identities, published clues and known facts. Session ID and revision checks discard stale results after reset/case changes. Only an accepted proved verdict can publish a status and its statement together. Restart cancels work and invalidates the old revision. Worker errors are distinct from UNSAT and cannot justify verdicts. The desktop remains responsive during SAT work; navigation and inspection are available while new proposals wait.
 
 The solver is deterministic, self-written **recursive** DPLL with unit propagation, branching/backtracking, conflict detection and optional pure-literal elimination. A failed recursive child increments backtracks; a root contradiction alone does not. Cardinality circuits use quadratic bounded thresholds and parity uses linear XOR chains. Auxiliary assignments are ignored when checking uniqueness of the board. Large imported constraints can still take exponential search time or exceed Python's recursion limit. Desktop cancellation terminates the analysis worker; batch experiments have an explicit per-run timeout.
 
-This is an educational local application. Puzzle files contain solutions, so public-only reasoning is a correctness boundary rather than protection from a user reading files. There is no network service, account, telemetry or database. [DESIGN.md](docs/DESIGN.md) records the approved structure and original UI concept.
+This is an educational local application. Puzzle files contain solutions, so public-only reasoning is a correctness boundary rather than protection from a user reading files. There is no network service, account, telemetry or database. [DESIGN.md](docs/DESIGN.md) records the original UI concept; [ARCHITECTURE.md](docs/ARCHITECTURE.md) records the current package structure.
 
 ## Course submission
 

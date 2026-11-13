@@ -9,6 +9,7 @@ from proofledger.desktop.notebook import Notebook
 
 class Workspace(ttk.Frame):
     def __init__(self, parent, on_select, on_verdict, on_hint, on_run, on_reset):
+        """Compose the scrollable board, notebook, verdicts, and fixed controls."""
         super().__init__(parent)
         viewport = ttk.Frame(self)
         viewport.pack(fill="both", expand=True)
@@ -57,11 +58,13 @@ class Workspace(ttk.Frame):
             button.state(["disabled"])
 
     def resize(self, event):
+        """Match the canvas window and wrapped labels to the available width."""
         self.canvas.itemconfigure(self.window, width=event.width)
         for widget in (self.title, self.progress, self.identity, self.message):
             widget.configure(wraplength=max(300, event.width - 50))
 
     def refresh(self, case, observe, running, busy):
+        """Synchronize all workspace widgets with game and worker state."""
         snapshot = case.public
         self.title.configure(text=case.title)
         self.progress.configure(text=f"{snapshot.size} × {snapshot.size}  /  "

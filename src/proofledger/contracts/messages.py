@@ -15,4 +15,5 @@ class PublicSnapshot:
 
     @property
     def solved(self) -> bool:
+        """Report whether every identity already has a published verdict."""
         return len(self.facts) == len(self.people)

@@ -36,10 +36,12 @@ class Clue:
 
 
 def board_cells(size: int) -> tuple[str, ...]:
+    """Return every board coordinate in deterministic row-major order."""
     return tuple(f"{chr(65 + x)}{y}" for y in range(1, size + 1) for x in range(size))
 
 
 def cell_position(cell: str, size: int) -> tuple[int, int]:
+    """Validate a coordinate and convert it to zero-based row and column indexes."""
     if not isinstance(cell, str) or len(cell) < 2:
         raise ValueError("A coordinate needs a column letter and a row number")
     column, row = cell[0], cell[1:]
